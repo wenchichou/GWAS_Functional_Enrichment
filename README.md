@@ -21,5 +21,6 @@ Usage:
 4) run
 
 (try the default setting and find your results at ./results/enrichment_grepStrenth/gwasEnrichmentResults.txt)
+
 bash ./scripts/GWAS.TissueSpecific.Function.Enrichment.sh
 
