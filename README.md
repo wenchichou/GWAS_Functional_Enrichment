@@ -11,7 +11,7 @@ The pipeline was also applied on other projects checking
 
 Usage:
 1) Clone this repository
-2) install bs4, a python package
+2) install 4, a python package
 3) edit the environment setting in the schell script named "GWAS.TissueSpecific.Function.Enrichment.sh" in the "scripts" directory
 3.1) set filepath of the input SNP list
 3.2) set filepath of the result folder
