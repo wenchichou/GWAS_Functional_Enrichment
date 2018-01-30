@@ -7,19 +7,19 @@ use Python-2.7
 
 # enviroment setup
 #resultDIR=$1 # where you store the intermediate results 
-resultDIR="/home/unix/wcchou/gsapWenChi/tmp"
+resultDIR="./results/enrichment_grepStrenth"
 #inputSNPList=$2 # the list of input SNPs
-inputSNPList="/home/unix/wcchou/gsapWenChi/tmp/SNPs_grepStrength.txt"
+inputSNPList="./data/SNPs_grepStrength.txt"
 #collectSNPinLD_Py=$3 # a web parser to get SNPs in LD block by a given SNP
-collectSNPinLD_Py="/home/unix/wcchou/gsapWenChi/tmp/collectSNPinLD.py"
+collectSNPinLD_Py="./scripts/collectSNPinLD.py"
 #collectChromHMM_Sh=$4 # a web parser to collect ChromHMM annotations
-collectChromHMM_Sh="/home/unix/wcchou/gsapWenChi/tmp/collectChromHMM.sh"
+collectChromHMM_Sh="./scripts/collectChromHMM.sh"
 #enrichmentTest_R=$5 # an R script to run enrichmet analysis
-enrichmentTest_R="/home/unix/wcchou/gsapWenChi/tmp/enrichmentTest.TissueSpecific.GWAS.r"
+enrichmentTest_R="./scripts/enrichmentTest.TissueSpecific.GWAS.r"
 #enrichmentTestFun_R=$6 # an R script contains the functions for enrichment analysis
-enrichmentTestFun_R="/home/unix/wcchou/gsapWenChi/tmp/enrichmentTest.TissueSpecific.GWAS.function.r"
+enrichmentTestFun_R="./scripts/enrichmentTest.TissueSpecific.GWAS.function.r"
 #cellTable=$7 # a table describing the categories of all cell types
-cellTable="/home/unix/wcchou/gsapWenChi/tmp/allCell.group.ID.description.txt"
+cellTable="./data/allCell.group.ID.description.txt"
 
 # change dir to the result directory 
 cd ${resultDIR} 
@@ -39,4 +39,3 @@ done
 # 4) perform hypergeometric test to find enriched regulatory functions in the given cell types [a R script]
 # Rscript --vanilla Rscript RscripFunction DIR_collectedChromHMM enrichmentTable inputSNP iterationForPermutation cellTable
 Rscript --vanilla ${enrichmentTest_R} ${enrichmentTestFun_R} ${resultDIR} gwasEnrichmentResults.txt ${inputSNPList} 100000 ${cellTable} 
-
