@@ -18,4 +18,5 @@ Usage:
 4) at the main directory 
 
 RUN
+
 bash ./scripts/GWAS.TissueSpecific.Function.Enrichment.sh
