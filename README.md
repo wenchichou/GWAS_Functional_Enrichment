@@ -16,4 +16,5 @@ Usage:
 3.1) set filepath of the input SNP list
 3.2) set filepath of the result folder
 4) run
+
 bash ./scripts/GWAS.TissueSpecific.Function.Enrichment.sh
