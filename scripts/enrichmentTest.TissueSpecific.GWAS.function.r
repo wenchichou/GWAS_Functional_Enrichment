@@ -15,7 +15,7 @@ onePermutation = function(func_ObservedTable, allCellTable, cutoffHit, targetedC
 }
 
 
-# generate observed statistics 
+# generate observed statistics of a hypergeometric test
 prepareTableNgeneratePermutationStat <-function(chromcells, allCellTable, cutoffHit, targetedCellGroup){
     observedTable = table(chromcells)
 
