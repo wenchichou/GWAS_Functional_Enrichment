@@ -1,3 +1,4 @@
+# run permutation to generate null statistics 
 onePermutation = function(func_ObservedTable, allCellTable, cutoffHit, targetedCellGroup){
 	targetedCellDescription=allCellTable$cellDescription[grep(targetedCellGroup, allCellTable$cellID)]
 	permutedTable = func_ObservedTable[sample.int(length(func_ObservedTable), replace=FALSE)]
@@ -14,7 +15,7 @@ onePermutation = function(func_ObservedTable, allCellTable, cutoffHit, targetedC
 }
 
 
-
+# generate observed statistics 
 prepareTableNgeneratePermutationStat <-function(chromcells, allCellTable, cutoffHit, targetedCellGroup){
     observedTable = table(chromcells)
 
@@ -50,10 +51,7 @@ prepareTableNgeneratePermutationStat <-function(chromcells, allCellTable, cutoff
     return(observedTestStatistics)
 }
 
-#chromcells=pollAllChromCells
-#allCellTable=allCellTable
-#cutoffHit=20
-#targetedCellGroup="MUS"
+# get statistics ready for hypergeometric tests
 prepareTable <-function(chromcells, allCellTable, cutoffHit, targetedCellGroup){
     observedTable = table(chromcells)
 
