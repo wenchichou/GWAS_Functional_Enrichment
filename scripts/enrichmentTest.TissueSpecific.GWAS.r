@@ -1,42 +1,38 @@
 args <- commandArgs(trailingOnly=TRUE)
 
-functionScript <-args[1]
-resultDIR <- args[2]
-outputTableFile <- args[3]
-inputSNP <- readLines(args[4])
-iteration <- as.numeric(as.character(args[5]))
-cellTableFile <- args[6]
+functionScript <-args[1] # script of R functions
+resultDIR <- args[2] # setting output directory
+outputTableFile <- args[3] # path of the intermediate files
+inputSNP <- readLines(args[4]) # input SNPs
+iteration <- as.numeric(as.character(args[5])) # number of permutations
+cellTableFile <- args[6] # all cells are used in the ChromHMM annotationa database for checking cell specificity
 source(functionScript)
 
-#resultDIR = "/home/unix/wcchou/gsapWenChi/tmp"
-#iteration = 10000
-#inputSNPList <-read.line("/home/unix/wcchou/gsapWenChi/tmp/SNPs_leanMass2ndPaper.txt")
-#inputSNP <-readLines("/home/unix/wcchou/gsapWenChi/tmp/SNPs_leanMass2ndPaper.txt")
-#source("/home/unix/wcchou/gsapWenChi/tmp/enrichmentTest.TissueSpecific.GWAS.function.r")
-#allCellTable = read.table("./allCell.group.ID.description.txt", header=F, sep="\t")
+# loading all cells are used in the ChromHMM annotationa database for checking cell specificity
 allCellTable = read.table(cellTableFile, header=F, sep="\t")
 colnames(allCellTable)=c("SN","cellGroup","cellID","cellDescription")
 
+# loading ChromHMM annotations of each SNP
 allChromHMMCells <- list()
 for(i in 1:length(inputSNP)){
-	#allChromHMMCells[i] <- read.table("./rs733381/ChromHMM.Cell", header=F, sep="\t")
 	allChromHMMCells[i] <- read.table(paste(resultDIR,"/",inputSNP[i],"/ChromHMM.Cell",sep=""), header=F, sep="\t")
 }
 names(allChromHMMCells) <- inputSNP
 
-pollAllChromCells <- data.frame(matrix(unlist(allChromHMMCells), ncol=1, byrow=T),stringsAsFactors=FALSE)
+pollAllChromCells <- data.frame(matrix(unlist(allChromHMMCells), ncol=1, byrow=T),stringsAsFactors=FALSE) # get a summary table
 
-countCutoff.cell <- as.numeric(summary(as.numeric(table(pollAllChromCells))))[2] + 1
+countCutoff.cell <- as.numeric(summary(as.numeric(table(pollAllChromCells))))[2] + 1 # use 1st quartile of the cell count as the cutoff
 
 
-# 112817 separate skeletal MUS and smooth MUS
+# redefine one cell type in to two cell types: separate skeletal MUS and smooth MUS
 # replace "SM.MUS" to "sm.mus"
 levels(allCellTable$cellID)=c(levels(allCellTable$cellID), sub("SM.MUS","sm.mus",grep("SM.MUS",allCellTable$cellID,value=T)))
 allCellTable$cellID[grep("SM.MUS",allCellTable$cellID)]=sub("SM.MUS","sm.mus",grep("SM.MUS",allCellTable$cellID,value=T))
 
-
+# define all cell types that will be analyzed
 targetedCellGroup <- c("MUS","sm.mus","BRN","BLD","GI","FET","SKIN","FAT","LNG","BRST")
 
+# run hypergeometric test with permutaion to get p-values
 resultTable<-data.frame()
 for(cell in 1:length(targetedCellGroup)){
 	pollAllChromCells.Table <- prepareTable(pollAllChromCells, allCellTable, countCutoff.cell, targetedCellGroup[cell])
